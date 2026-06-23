@@ -1,0 +1,1221 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Khaled Zeyad</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-snap-type: y mandatory;
+        overflow-y: scroll;
+        scroll-behavior: smooth;
+      }
+      body {
+        background: #0d0d0d;
+        color: #fff;
+        font-family: "Figtree", sans-serif;
+        font-weight: 400;
+        line-height: 1.5;
+      }
+
+      section {
+        scroll-snap-align: start;
+        min-height: 100vh;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 80px 10vw;
+        position: relative;
+        overflow: hidden;
+      }
+      .chapter-num {
+        position: absolute;
+        bottom: 40px;
+        right: 10vw;
+        font-size: 13px;
+        font-weight: 600;
+        color: #fff;
+        letter-spacing: 0.05em;
+      }
+      .chapter-label {
+        font-size: 14px;
+        font-weight: 500;
+        color: #fff;
+        margin-bottom: 14px;
+        opacity: 0.7;
+      }
+      h2.section-title {
+        font-size: clamp(36px, 5.5vw, 56px);
+        font-weight: 900;
+        line-height: 1.05;
+        letter-spacing: -0.03em;
+        margin-bottom: 44px;
+        max-width: 700px;
+      }
+      h2.section-title em {
+        font-style: normal;
+        color: #a855f7;
+      }
+
+      /* TOPBAR */
+      .topbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 10vw;
+        z-index: 100;
+        pointer-events: none;
+        background: rgba(13, 13, 13, 0.6);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      .topbar-logo {
+        font-size: 16px;
+        font-weight: 800;
+        color: #a855f7;
+        letter-spacing: 0.04em;
+        pointer-events: auto;
+        cursor: default;
+      }
+      .topbar-btn {
+        pointer-events: auto;
+        background: transparent;
+        border: 1.5px solid rgba(255, 255, 255, 0.3);
+        color: #fff;
+        font-family: "Figtree", sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        padding: 9px 22px;
+        border-radius: 100px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.2s;
+        letter-spacing: 0.01em;
+      }
+      .topbar-btn:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.6);
+      }
+
+      /* ── COVER ── */
+      #s0 {
+        background: #0d0d0d;
+        align-items: center;
+        text-align: center;
+      }
+      .cover-year {
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        color: #a7a7a7;
+        border: 1.5px solid #2a2a2a;
+        border-radius: 100px;
+        padding: 7px 20px;
+        margin-bottom: 36px;
+        display: inline-block;
+      }
+      .cover-avatar {
+        width: 116px;
+        height: 116px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 40px;
+        font-weight: 900;
+        color: #0d0d0d;
+        margin: 0 auto 28px;
+      }
+      .cover-name {
+        font-size: clamp(44px, 7vw, 70px);
+        font-weight: 900;
+        letter-spacing: -0.04em;
+        line-height: 1;
+        margin-bottom: 16px;
+      }
+      .cover-title {
+        font-size: clamp(15px, 2vw, 20px);
+        font-weight: 500;
+        color: #a7a7a7;
+        margin-bottom: 44px;
+      }
+      .cover-scroll {
+        font-size: 14px;
+        font-weight: 600;
+        color: #a7a7a7;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        animation: bob 2s ease-in-out infinite;
+      }
+      @keyframes bob {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(7px);
+        }
+      }
+
+      /* ── TOP TRACKS ── */
+      #s1 {
+        background: #111;
+      }
+      .tracks-layout {
+        display: flex;
+        align-items: flex-start;
+        gap: 64px;
+        width: 100%;
+      }
+      .ranked-list {
+        flex: 0 0 auto;
+        width: clamp(260px, 36%, 440px);
+      }
+      .rank-row {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 20px 0;
+        border-bottom: 1px solid #1c1c1c;
+      }
+      .rank-row:first-child {
+        border-top: 1px solid #1c1c1c;
+      }
+      .rank-idx {
+        font-size: clamp(30px, 4vw, 46px);
+        font-weight: 900;
+        color: #252525;
+        min-width: 58px;
+        text-align: right;
+        line-height: 1;
+        flex-shrink: 0;
+      }
+      .rank-name {
+        font-size: clamp(14px, 1.7vw, 19px);
+        font-weight: 700;
+        color: #fff;
+        flex: 1;
+      }
+      .tags-wrap {
+        flex: 1;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-content: flex-start;
+      }
+      .tag {
+        font-size: 13px;
+        font-weight: 600;
+        padding: 8px 16px;
+        border-radius: 100px;
+        background: #1a1a1a;
+        color: #a7a7a7;
+        white-space: nowrap;
+        transition: all 0.2s;
+        cursor: default;
+        height: fit-content;
+      }
+      .tag:hover {
+        background: #a855f7;
+        color: #0d0d0d;
+      }
+
+      /* ── TOUR / EXPERIENCE ── */
+      #s2 {
+        background: #0d0d0d;
+      }
+      .timeline-wrap {
+        width: 100%;
+        position: relative;
+        padding-left: 28px;
+      }
+      /* the continuous vertical line */
+      .timeline-wrap::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 8px;
+        bottom: 8px;
+        width: 1.5px;
+        background: #2a2a2a;
+      }
+      .tl-entry {
+        position: relative;
+        margin-bottom: 52px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 24px;
+      }
+      .tl-entry:last-child {
+        margin-bottom: 0;
+      }
+      /* dot on the line */
+      .tl-entry::before {
+        content: "";
+        position: absolute;
+        left: -32px;
+        top: 8px;
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: #a855f7;
+        flex-shrink: 0;
+      }
+      /* connecting segment highlight for each entry */
+      .tl-entry::after {
+        content: "";
+        position: absolute;
+        left: -28.75px;
+        top: 17px;
+        width: 1.5px;
+        background: #a855f7;
+        height: calc(100% + 52px);
+        opacity: 0.2;
+      }
+      .tl-entry:last-child::after {
+        display: none;
+      }
+      .tl-left {
+        flex: 1;
+        min-width: 0;
+        padding-right: 18rem;
+      }
+      .tl-role {
+        font-size: clamp(18px, 2.5vw, 24px);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        margin-bottom: 4px;
+      }
+      .tl-company {
+        font-size: 14px;
+        font-weight: 600;
+        color: #a855f7;
+        margin-bottom: 16px;
+        letter-spacing: 0.02em;
+      }
+      .tl-bullets {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .tl-bullets li {
+        font-size: 14px;
+        color: #a7a7a7;
+        padding-left: 18px;
+        position: relative;
+        line-height: 1.65;
+      }
+      .tl-bullets li::before {
+        content: "•";
+        position: absolute;
+        left: 0;
+        color: #a7a7a7;
+        font-size: 16px;
+        line-height: 1.5;
+      }
+      .tl-right {
+        text-align: right;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding-top: 4px;
+      }
+      .tl-date {
+        font-size: 13px;
+        font-weight: 700;
+        color: #fff;
+      }
+      .tl-location {
+        font-size: 13px;
+        font-weight: 500;
+        color: #a7a7a7;
+      }
+      .tl-type {
+        font-size: 12px;
+        font-weight: 500;
+        color: #6a6a6a;
+      }
+
+      /* ── BOUNTIES ── */
+      #s3 {
+        background: #111;
+      }
+      .bounty-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 24px;
+        padding: 28px 0;
+        border-bottom: 1px solid #1c1c1c;
+        width: 100%;
+      }
+      .bounty-row:first-child {
+        border-top: 1px solid #1c1c1c;
+      }
+      .bounty-idx {
+        font-size: clamp(36px, 5vw, 56px);
+        font-weight: 900;
+        color: #202020;
+        min-width: 64px;
+        text-align: right;
+        line-height: 1;
+        flex-shrink: 0;
+        padding-top: 2px;
+      }
+      .bounty-body {
+        flex: 1;
+        min-width: 0;
+      }
+      .bounty-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 8px;
+      }
+      .bounty-target {
+        font-size: clamp(18px, 2.2vw, 24px);
+        font-weight: 800;
+        letter-spacing: -0.01em;
+      }
+      .bounty-desc {
+        font-size: 14px;
+        color: #a7a7a7;
+        line-height: 1.65;
+        margin-bottom: 12px;
+        padding-right: 32rem;
+      }
+      .btags {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .btag {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        padding: 4px 12px;
+        border-radius: 100px;
+        background: #1a1a1a;
+        color: #a7a7a7;
+      }
+      .btag-hof {
+        background: #1e1500;
+        color: #ffaa33;
+      }
+      .btag-platform {
+        background: #0d0d20;
+        color: #8888ff;
+      }
+      .btag-valid {
+        background: #001408;
+        color: #1ed760;
+      }
+
+      /* ── RECEIPTS ── */
+      #s4 {
+        background: #0d0d0d;
+      }
+      .rec-section-label {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #a7a7a7;
+        margin-bottom: 16px;
+        margin-top: 36px;
+      }
+      .rec-section-label:first-child {
+        margin-top: 0;
+      }
+      .rec-row {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        padding: 18px 0;
+        border-bottom: 1px solid #1c1c1c;
+        gap: 16px;
+        width: 100%;
+      }
+      .rec-row:last-child {
+        border-bottom: none;
+      }
+      .rec-name {
+        font-size: 15px;
+        font-weight: 700;
+        margin-bottom: 3px;
+      }
+      .rec-issuer {
+        font-size: 13px;
+        color: #a7a7a7;
+      }
+      .rec-right {
+        text-align: right;
+        flex-shrink: 0;
+      }
+      .rec-date {
+        font-size: 12px;
+        color: #a7a7a7;
+        margin-bottom: 7px;
+      }
+      .rec-link {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 700;
+        color: #1ed760;
+        text-decoration: none;
+        border: 1.5px solid #1ed760;
+        padding: 4px 14px;
+        border-radius: 100px;
+        transition: all 0.2s;
+        letter-spacing: 0.02em;
+      }
+      .rec-link:hover {
+        background: #1ed760;
+        color: #0d0d0d;
+      }
+      .rec-badge {
+        display: inline-block;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.07em;
+        padding: 4px 12px;
+        border-radius: 100px;
+        background: #1e1500;
+        color: #ffaa33;
+      }
+
+      /* ── ABOUT ── */
+      #s5 {
+        background: #111;
+      }
+      .about-quote {
+        font-size: clamp(15px, 2vw, 19px);
+        font-weight: 700;
+        color: #a855f7;
+        margin-bottom: 28px;
+        font-style: italic;
+      }
+      .about-body {
+        font-size: clamp(14px, 1.7vw, 17px);
+        color: #ccc;
+        line-height: 1.9;
+        max-width: 640px;
+        margin-bottom: 36px;
+      }
+      .about-body strong {
+        color: #fff;
+        font-weight: 700;
+      }
+
+      /* ── FINAL ── */
+      #s6 {
+        background: #0d0d0d;
+        align-items: center;
+        text-align: center;
+      }
+      .final-avatar {
+        width: 92px;
+        height: 92px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #a855f7, #7c3aed);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+        font-weight: 900;
+        color: #0d0d0d;
+        margin: 0 auto 28px;
+      }
+      .final-heading {
+        font-size: clamp(34px, 5vw, 60px);
+        font-weight: 900;
+        letter-spacing: -0.03em;
+        line-height: 1.05;
+        margin-bottom: 12px;
+      }
+      .final-sub {
+        font-size: 16px;
+        color: #a7a7a7;
+        margin-bottom: 32px;
+        max-width: 420px;
+      }
+      .cv-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        background: #1ed760;
+        color: #0d0d0d;
+        font-family: "Figtree", sans-serif;
+        font-size: 15px;
+        font-weight: 800;
+        padding: 14px 30px;
+        border-radius: 100px;
+        text-decoration: none;
+        margin-bottom: 44px;
+        letter-spacing: 0.02em;
+        transition: all 0.2s;
+      }
+      .cv-btn:hover {
+        background: #17b353;
+        transform: scale(1.04);
+      }
+      .cv-btn svg {
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+      }
+      .contact-table {
+        max-width: 500px;
+        width: 100%;
+      }
+      .contact-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 0;
+        border-bottom: 1px solid #1c1c1c;
+        gap: 16px;
+      }
+      .contact-lbl {
+        font-size: 12px;
+        font-weight: 700;
+        color: #a7a7a7;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        flex-shrink: 0;
+      }
+      .contact-val {
+        font-size: 14px;
+        font-weight: 600;
+        color: #fff;
+        text-decoration: none;
+        transition: color 0.2s;
+        text-align: right;
+      }
+      .contact-val:hover {
+        color: #a855f7;
+      }
+      .socials {
+        display: flex;
+        gap: 10px;
+        margin-top: 28px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .social-btn {
+        font-size: 13px;
+        font-weight: 600;
+        color: #a7a7a7;
+        text-decoration: none;
+        padding: 10px 20px;
+        border-radius: 100px;
+        border: 1.5px solid #2a2a2a;
+        transition: all 0.2s;
+      }
+      .social-btn:hover {
+        border-color: #a855f7;
+        color: #a855f7;
+      }
+      .footer-txt {
+        margin-top: 52px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #333;
+        letter-spacing: 0.05em;
+      }
+
+      /* ANIMATIONS */
+      .fu {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+          opacity 0.65s ease,
+          transform 0.65s ease;
+      }
+      .fu.vis {
+        opacity: 1;
+        transform: none;
+      }
+      .fu:nth-child(2) {
+        transition-delay: 0.07s;
+      }
+      .fu:nth-child(3) {
+        transition-delay: 0.14s;
+      }
+      .fu:nth-child(4) {
+        transition-delay: 0.21s;
+      }
+      .fu:nth-child(5) {
+        transition-delay: 0.28s;
+      }
+      .fu:nth-child(6) {
+        transition-delay: 0.35s;
+      }
+      .fu:nth-child(7) {
+        transition-delay: 0.42s;
+      }
+      .fu:nth-child(8) {
+        transition-delay: 0.49s;
+      }
+      .fu:nth-child(9) {
+        transition-delay: 0.56s;
+      }
+
+      @media (max-width: 640px) {
+        section {
+          padding: 72px 6vw 80px;
+        }
+        .topbar {
+          padding: 16px 6vw;
+        }
+        .chapter-num {
+          right: 6vw;
+        }
+
+        /* ── EXPERIENCE ── */
+        .tl-entry {
+          flex-direction: column;
+          gap: 10px;
+        }
+        .tl-left {
+          padding-right: 0;
+          width: 100%;
+          order: 2;
+        }
+        .tl-right {
+          text-align: left;
+          flex-direction: row;
+          flex-wrap: wrap;
+          gap: 6px 16px;
+          padding-top: 0;
+          order: 1;
+        }
+        .tl-date {
+          width: 100%;
+        }
+
+        /* ── BOUNTIES ── */
+        .bounty-row {
+          gap: 14px;
+        }
+        .bounty-idx {
+          font-size: 28px;
+          min-width: 36px;
+        }
+        .bounty-desc {
+          padding-right: 0;
+        }
+        .bounty-header {
+          flex-direction: row;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 8px 12px;
+        }
+
+        /* ── TOP TECHNIQUES ── */
+        .tracks-layout {
+          flex-direction: column;
+          gap: 32px;
+        }
+        .ranked-list {
+          width: 100%;
+        }
+        .tags-wrap {
+          width: 100%;
+          justify-content: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="topbar">
+      <span class="topbar-logo">Rwx01</span>
+
+      <a
+        class="topbar-btn"
+        href="https://drive.google.com/file/d/16HJxgTcKgNLUoUcMTVopShTug_k-tyvm/view?usp=drivesdk"
+        target="_blank"
+        >Download CV</a
+      >
+    </div>
+
+    <!-- ══════════════════════════════════════
+     COVER
+══════════════════════════════════════ -->
+    <section id="s0">
+      <span class="cover-year">rwx - read, write, exploit.</span>
+      <h1 class="cover-name">Khaled Zeyad</h1>
+      <p class="cover-title">
+        Application Security Engineer | Penetration Tester
+      </p>
+      <div class="cover-scroll">Scroll to begin &nbsp;↓</div>
+      <div class="chapter-num">01 / 05</div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+     CHAPTER 01 — TOP TRACKS (SKILLS)
+══════════════════════════════════════ -->
+    <section id="s1">
+      <p class="chapter-label fu">Chapter 01 - Top tracks</p>
+      <h2 class="section-title fu">Top<br /><em>techniques</em></h2>
+
+      <div class="tracks-layout">
+        <div class="ranked-list">
+          <div class="rank-row fu">
+            <span class="rank-idx">01</span>
+            <span class="rank-name">Web Application Pentesting</span>
+          </div>
+          <div class="rank-row fu">
+            <span class="rank-idx">02</span>
+            <span class="rank-name">Network Pentesting</span>
+          </div>
+          <div class="rank-row fu">
+            <span class="rank-idx">03</span>
+            <span class="rank-name">Active Directory Pentesting</span>
+          </div>
+          <div class="rank-row fu">
+            <span class="rank-idx">04</span>
+            <span class="rank-name">Programming &amp; Development</span>
+          </div>
+        </div>
+
+        <div class="tags-wrap fu" style="justify-content: center">
+          <span class="tag">OWASP Top 10</span>
+          <span class="tag">Broken Access Control</span>
+          <span class="tag">Business Logic Flaws</span>
+          <span class="tag">Authentication Bypass</span>
+          <span class="tag">IDOR</span>
+          <span class="tag">XSS</span>
+          <span class="tag">SQLi</span>
+          <span class="tag">SSRF</span>
+          <span class="tag">API Security Testing</span>
+          <span class="tag">Network Reconnaissance</span>
+          <span class="tag">Port Scanning</span>
+          <span class="tag">Service Enumeration</span>
+          <span class="tag">Traffic Analysis</span>
+          <span class="tag">Vulnerability Assessment</span>
+          <span class="tag">AD Fundamentals</span>
+          <span class="tag">Enumeration</span>
+          <span class="tag">Common Attack Vectors</span>
+          <span class="tag">Node.js</span>
+          <span class="tag">Express.js</span>
+          <span class="tag">MongoDB</span>
+          <span class="tag">EJS</span>
+          <span class="tag">Python / Bash</span>
+        </div>
+      </div>
+
+      <div class="chapter-num">02 / 05</div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+     CHAPTER 02 — THE TOUR (EXPERIENCE)
+══════════════════════════════════════ -->
+    <section id="s2">
+      <p class="chapter-label fu">Chapter 02 - The tour</p>
+      <h2 class="section-title fu">Where I<br /><em>made noise</em></h2>
+
+      <div class="timeline-wrap">
+        <!-- Entry 1 -->
+        <div class="tl-entry fu">
+          <div class="tl-left">
+            <div class="tl-role">Cyber Security Engineer</div>
+            <div class="tl-company">CustEx, Inc.</div>
+            <ul class="tl-bullets">
+              <li>
+                Conducted security testing on production Web and API
+                applications, identifying vulnerabilities including broken
+                access control, business logic flaws, sensitive data exposure,
+                and authentication weaknesses.
+              </li>
+              <li>
+                Produced detailed vulnerability reports with impact analysis,
+                proof-of-concept demonstrations, and practical remediation
+                guidance.
+              </li>
+              <li>
+                Worked closely with developers to validate fixes and contributed
+                to resolving issues such as clickjacking by implementing proper
+                security headers.
+              </li>
+            </ul>
+          </div>
+          <div class="tl-right">
+            <span class="tl-date">08/2025 – Present</span>
+            <span class="tl-location">California, USA</span>
+            <span class="tl-type">Part-time Consulting · Remote</span>
+          </div>
+        </div>
+
+        <!-- Entry 2 -->
+        <div class="tl-entry fu">
+          <div class="tl-left">
+            <div class="tl-role">Network Security Trainee</div>
+            <div class="tl-company">
+              National Telecommunication Institute (NTI)
+            </div>
+            <ul class="tl-bullets">
+              <li>
+                Analyzed core network protocols including TCP/IP, DNS, HTTP/S,
+                and DHCP within practical lab environments.
+              </li>
+              <li>
+                Performed network traffic monitoring and packet analysis using
+                Wireshark to inspect communication flows and identify network
+                activity patterns.
+              </li>
+              <li>
+                Conducted network reconnaissance, port scanning, and traffic
+                sniffing exercises in controlled lab environments to understand
+                common network attack techniques and enumeration workflows.
+              </li>
+            </ul>
+          </div>
+          <div class="tl-right">
+            <span class="tl-date">08/2025 – 09/2025</span>
+            <span class="tl-location">Cairo, Egypt</span>
+            <span class="tl-type">Summer Training · Remote</span>
+          </div>
+        </div>
+
+        <!-- Entry 3 -->
+        <div class="tl-entry fu">
+          <div class="tl-left">
+            <div class="tl-role">Frontend Developer</div>
+            <div class="tl-company">USAM</div>
+            <ul class="tl-bullets">
+              <li>
+                Contributed to building a responsive website to present company
+                services and projects.
+              </li>
+              <li>
+                Implemented UI components using HTML, SCSS, jQuery, and
+                JavaScript.
+              </li>
+              <li>
+                Developed practical understanding of browser behavior and
+                client-side architecture, supporting later work in frontend
+                security analysis.
+              </li>
+            </ul>
+          </div>
+          <div class="tl-right">
+            <span class="tl-date">06/2023 – 09/2023</span>
+            <span class="tl-location">Cairo, Egypt</span>
+            <span class="tl-type">Volunteering · Remote</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="chapter-num">03 / 05</div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+     CHAPTER 03 — THE BOUNTIES
+══════════════════════════════════════ -->
+    <section id="s3">
+      <p class="chapter-label fu">Chapter 03 - The bounties</p>
+      <h2 class="section-title fu">Some bugs<br /><em>I dropped</em></h2>
+
+      <div class="bounty-row fu">
+        <span class="bounty-idx">01</span>
+        <div class="bounty-body">
+          <div class="bounty-header">
+            <span class="bounty-target">BitGo</span>
+            <div class="btags">
+              <span class="btag btag-platform">Bugcrowd</span>
+              <span class="btag btag-hof">★ Hall of Fame</span>
+            </div>
+          </div>
+          <div class="bounty-desc">
+            Found 3 Broken Access Control (Privilege Escalation) vulnerabilities
+            within BitGo, leading to Hall of Fame recognition.
+          </div>
+        </div>
+      </div>
+
+      <div class="bounty-row fu">
+        <span class="bounty-idx">02</span>
+        <div class="bounty-body">
+          <div class="bounty-header">
+            <span class="bounty-target">Lexzur</span>
+            <div class="btags">
+              <span class="btag btag-valid">Confirmed Valid</span>
+            </div>
+          </div>
+          <div class="bounty-desc">
+            Identified a CSRF vulnerability allowing unauthorized profile
+            modification on authenticated accounts, confirmed valid by the
+            security team.
+          </div>
+        </div>
+      </div>
+
+      <div class="bounty-row fu">
+        <span class="bounty-idx">03</span>
+        <div class="bounty-body">
+          <div class="bounty-header">
+            <span class="bounty-target">Investing.com</span>
+            <div class="btags">
+              <span class="btag btag-valid">Confirmed Valid</span>
+            </div>
+          </div>
+          <div class="bounty-desc">
+            Reported a Stored HTML Injection vulnerability, responsibly
+            disclosed.
+          </div>
+        </div>
+      </div>
+
+      <div class="bounty-row fu">
+        <span class="bounty-idx">04</span>
+        <div class="bounty-body">
+          <div class="bounty-header">
+            <span class="bounty-target">Virtru</span>
+            <div class="btags">
+              <span class="btag btag-platform">Bugcrowd</span>
+              <span class="btag btag-valid">Confirmed Valid</span>
+            </div>
+          </div>
+          <div class="bounty-desc">
+            Found an Open Redirect vulnerability allowing post-authentication
+            redirection to external attacker-controlled domains.
+          </div>
+        </div>
+      </div>
+
+      <div class="chapter-num">04 / 05</div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+     CHAPTER 04 — THE RECEIPTS
+══════════════════════════════════════ -->
+    <section id="s4">
+      <p class="chapter-label fu">Chapter 04 - The receipts</p>
+      <h2 class="section-title fu">Stamps from<br /><em>the journey</em></h2>
+
+      <div style="width: 100%">
+        <div class="rec-section-label fu">Education</div>
+
+        <div class="rec-row fu">
+          <div>
+            <div class="rec-name">Bachelor's Degree in Computer Science</div>
+            <div class="rec-issuer">El Shorouk Academy</div>
+          </div>
+          <div class="rec-right">
+            <div class="rec-date">2024 – 2028</div>
+            <span class="rec-badge">In Progress</span>
+          </div>
+        </div>
+
+        <div class="rec-section-label fu">Certificates</div>
+
+        <div class="rec-row fu">
+          <div>
+            <div class="rec-name">Network Security Training</div>
+            <div class="rec-issuer">NTI</div>
+          </div>
+          <div class="rec-right">
+            <a
+              class="rec-link"
+              href="https://drive.google.com/file/d/1JsJZ07APAmAdWZi5-LDG31GP_tEi5YV5/view?usp=drivesdk"
+              target="_blank"
+              >View ↗</a
+            >
+          </div>
+        </div>
+
+        <div class="rec-row fu">
+          <div>
+            <div class="rec-name">Cyber Threat Intelligence 101</div>
+            <div class="rec-issuer">arcX</div>
+          </div>
+          <div class="rec-right">
+            <a
+              class="rec-link"
+              href="https://arcx.io/verify-certificate?id=39e40285e782a4757d5e4d666de605e7993f5eb7&k=af40a4f1a83541c18204a6f335844fba"
+              target="_blank"
+              >View ↗</a
+            >
+          </div>
+        </div>
+
+        <div class="rec-row fu">
+          <div>
+            <div class="rec-name">
+              Certified CyberSecurity Educator Professional (CCEP)
+            </div>
+            <div class="rec-issuer">Red Team Leaders</div>
+          </div>
+          <div class="rec-right">
+            <a
+              class="rec-link"
+              href="https://courses.redteamleaders.com/exam-completion/965d0f2276a68aa9"
+              target="_blank"
+              >View ↗</a
+            >
+          </div>
+        </div>
+
+        <div class="rec-row fu">
+          <div>
+            <div class="rec-name">Certified Red Team Analyst (CRTA)</div>
+            <div class="rec-issuer">CyberWarFare Labs</div>
+          </div>
+          <div class="rec-right">
+            <span class="rec-badge">In Progress</span>
+          </div>
+        </div>
+
+        <div class="rec-row fu">
+          <div>
+            <div class="rec-name">Software Engineering Diploma</div>
+            <div class="rec-issuer">European Open University</div>
+          </div>
+          <div class="rec-right">
+            <a
+              class="rec-link"
+              href="https://drive.google.com/file/d/1ixDQ6T0v7XbXOCwj10g01w_ULYGt0PWw/view?usp=drivesdk"
+              target="_blank"
+              >View ↗</a
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="chapter-num">05 / 05</div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+     CHAPTER 05 — OFF THE RECORD
+══════════════════════════════════════ -->
+    <section id="s5">
+      <p class="chapter-label fu">Chapter 05 - Off the record</p>
+      <h2 class="section-title fu">A little more<br /><em>about Khaled</em></h2>
+      <p class="about-body fu">
+        Application Security Engineer experienced in identifying
+        <strong
+          >authentication, authorization, and business logic
+          vulnerabilities</strong
+        >
+        in production environments, with hands-on experience in vulnerability
+        reporting, remediation validation, and responsible disclosure programs.
+      </p>
+    </section>
+
+    <!-- ══════════════════════════════════════
+     FINAL
+══════════════════════════════════════ -->
+    <section id="s6">
+      <p
+        style="
+          font-size: 14px;
+          font-weight: 600;
+          color: #a7a7a7;
+          margin-bottom: 28px;
+        "
+        class="fu"
+      >
+        That's a wrap.
+      </p>
+      <h2 class="final-heading fu">Let's build the<br />next chapter.</h2>
+      <p class="final-sub fu">
+        I'm Khaled Zeyad. Reach out, or download my story.
+      </p>
+
+      <a
+        class="cv-btn fu"
+        href="https://drive.google.com/file/d/1z-SzO2GTs-DtatB0DPXjKift61nsXY37/view?usp=drivesdk"
+        target="_blank"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <polyline points="7 10 12 15 17 10" />
+          <line x1="12" y1="15" x2="12" y2="3" />
+        </svg>
+        Download CV
+      </a>
+
+      <div class="contact-table fu">
+        <div class="contact-row">
+          <span class="contact-lbl">Email</span>
+          <a class="contact-val" href="mailto:khaled.zeyad.sec@gmail.com"
+            >khaled.zeyad.sec@gmail.com</a
+          >
+        </div>
+        <div class="contact-row">
+          <span class="contact-lbl">Phone</span>
+          <a class="contact-val" href="tel:+201225838671">+20 122 5838 671</a>
+        </div>
+        <div class="contact-row">
+          <span class="contact-lbl">Location</span>
+          <span class="contact-val">Cairo, Egypt</span>
+        </div>
+      </div>
+
+      <div class="socials fu">
+        <a
+          class="social-btn"
+          href="https://www.linkedin.com/in/khaled-zeyad"
+          target="_blank"
+          >LinkedIn</a
+        >
+        <a
+          class="social-btn"
+          href="https://github.com/Khaled-Zeyad"
+          target="_blank"
+          >GitHub</a
+        >
+        <a class="social-btn" href="https://medium.com/@rwx_01" target="_blank"
+          >Medium</a
+        >
+      </div>
+    </section>
+
+    <script>
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (!e.isIntersecting) return;
+            e.target.classList.add("vis");
+          });
+        },
+        { threshold: 0.08 },
+      );
+
+      document.querySelectorAll(".fu, section").forEach((el) => io.observe(el));
+    </script>
+  </body>
+</html>
